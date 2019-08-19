@@ -25,3 +25,47 @@ elisa_data = read.csv("C:/Users/Tony Isebe/Desktop/Backup/PHIST RESEARCH/csv raw
 elisa_data$PF3D7_0532400 = as.character(elisa_data$PF3D7_0532400)
 sukuta$PF3D7_0532400 = as.character(suguta$PF3D7_0532400)
 phist_ags_elisa = merge(suguta, elisa_data, by.x = "PF3D7_0532400", by.y = "PF3D7_0532400")
+
+# measuring responses across different age groups
+mydata <- read.csv("C:\\Users/John/Desktop/tony/Response_age.csv")
+
+mydata$age_categ <- cut(mydata$AGE.YEARS., c(0,3,6,10))
+
+mydata %>% 
+            ggplot(aes(age_categ, PF3D7_0532400))+
+            geom_boxplot()
+            
+# adding statistical comparisons
+library(tidyverse)
+library(ggpubr)
+
+mydata <- read.csv("C:\\Users/John/Desktop/tony/Response_age.csv")
+
+mydata$age_categ <- cut(mydata$AGE.YEARS., c(0,3,6,10))
+
+comparisons <- list(c('(0,3]', '(3,6]'), c('(3,6]', '(6,10]'), c('(0,3]', '(6,10]'))
+
+mydata %>% 
+            ggplot(aes(age_categ, PF3D7_0532400))+
+            geom_boxplot()+
+            stat_compare_means(comparisons = comparisons)
+# comparing responses in locations
+
+library(tidyverse)
+library(ggpubr)
+library(ggbeeswarm)
+
+mydata <- read.csv("C:\\Users/John/Desktop/tony/Response_age.csv")
+
+mydata$age_categ <- cut(mydata$AGE.YEARS., c(0,3,6,10))
+
+comparisons <- list(c('(0,3]', '(3,6]'), c('(3,6]', '(6,10]'), c('(0,3]', '(6,10]'))
+
+mydata %>% 
+            ggplot(aes(age_categ, PF3D7_0532400))+
+            geom_boxplot()+
+            geom_quasirandom()+
+            stat_compare_means(comparisons = comparisons, method = 'wilcox.test')+
+            stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+            facet_wrap(~location, scales = 'free')+
+            theme_bw()
