@@ -13,7 +13,7 @@ mydata1 %>%
   ggplot(aes(location, SCHIZONT.EXTRACT.OD.VALUES))+
   geom_boxplot()+
   geom_quasirandom()+
-  stat_compare_means( method = 'wilcox.test')+
+ stat_compare_means( method = 'wilcox.test')+
   stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
   theme_bw()
   
@@ -69,3 +69,11 @@ mydata %>%
             stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
             facet_wrap(~location, scales = 'free')+
             theme_bw()
+# comparing responses based on transmission intensity
+my_comparisons <- list(c('JUNJU','SIAYA'),c('JUNJU','SUKUTA'),c('JUNJU','TAKAUNGU'),c('SIAYA','SUKUTA'),c('SIAYA','TAKAUNGU'),c('SUKUTA','TAKAUNGU'))
+nytoy %>% 
+  ggplot(aes(location, SCHIZONT.EXTRACT.OD.VALUES))+
+  geom_boxplot()+
+  stat_compare_means(comparisons = my_comparisons, method = 'wilcox.test')+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+  theme_light()
