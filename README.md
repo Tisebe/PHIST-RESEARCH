@@ -77,3 +77,13 @@ nytoy %>%
   stat_compare_means(comparisons = my_comparisons, method = 'wilcox.test')+
   stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
   theme_light()
+  # generating beeswarm plots
+  boxplot(PF3D7_0532400 ~ PARA, data = nytoy, 
+          outline = FALSE,     ## avoid double-plotting outliers, if any
+          main = 'Comparing Antibody Levels in Children with  Parasitemia
+')
+beeswarm(PF3D7_0532400 ~ location, data = nytoy, 
+         col = 4, pch = 16, add = TRUE)+
+  stat_compare_means( method = 'wilcox.test')+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+  theme_bw()
