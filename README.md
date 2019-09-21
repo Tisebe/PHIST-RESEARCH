@@ -87,3 +87,13 @@ beeswarm(PF3D7_0532400 ~ location, data = nytoy,
   stat_compare_means( method = 'wilcox.test')+
   stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
   theme_bw()
+  # Add geom lines to box plots
+  tony<-tony %>% gather(Variables,Values,c("SCHIZONT.EXTRACT.OD.VALUES","PF3D7_0532400","PF3D7_1401600","PF3D7_1102500")) 
+
+tony$Variables<-factor(tony$Variables,levels = unique(tony$Variables))
+tony %>% 
+  ggplot(aes(as.factor(AGECODE),Values))+geom_boxplot()+facet_wrap(~Variables)+
+  xlab('AGE(YEARS)') + ylab('OD@492nm')+
+  stat_summary(fun.y = mean, geom = 'line', aes(group=1))+
+  stat_summary(fun.y = mean, geom = 'point')
+  
