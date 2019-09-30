@@ -97,3 +97,8 @@ tony %>%
   stat_summary(fun.y = mean, geom = 'line', aes(group=1))+
   stat_summary(fun.y = mean, geom = 'point')
   
+  # Install packages
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("edgeR")
