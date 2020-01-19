@@ -97,6 +97,25 @@ tony %>%
   stat_summary(fun.y = mean, geom = 'line', aes(group=1))+
   stat_summary(fun.y = mean, geom = 'point')
   
+  ## Combining columns
+  #####
+Refined053 <- read.csv("C:/Users/Tony Isebe/Desktop/Backup/PHIST RESEARCH/csv raw/053_Refined.csv")
+Refined110 <- read.csv("C:/Users/Tony Isebe/Desktop/Backup/PHIST RESEARCH/csv raw/1102500Refined.csv")
+Refined140 <- read.csv("C:/Users/Tony Isebe/Desktop/Backup/PHIST RESEARCH/csv raw/1401600Refined.csv")
+
+Refined053 <-Refined053 %>% mutate(variable=rep('Pf3D7_0532400',48))
+Refined110 <-Refined110 %>% mutate(variable=rep('Pf3D7_1102500',48))
+Refined140 <-Refined140 %>% mutate(variable=rep('Pf3D7_1401600',48))
+
+
+data<-rbind(Refined053,Refined110,Refined140)
+data %>% ggplot(aes(Antigen_Concentration,OD.Values,colour=Sera))+geom_line()+theme_bw()+facet_grid(~variable)+
+  theme_bw()+
+  ylab('OD@492nm')+xlab('Ag concentration (µg/mL)')+
+  ggtitle('PHISTb Antigen responses to Pooled hyper-immune and malaria naive sera')+
+  theme(plot.title = element_text(colour = 'black',size = 10,face = 'bold'))+
+  theme(plot.title = element_text(hjust = 0.5))
+  
   # Install packages
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
